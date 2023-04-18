@@ -6,7 +6,7 @@ const thoughtSchema = new Schema(
   {
     thoughtText: {
       type: String,
-      required: true, 'You must leave a thought',
+      required: 'You must leave a thought!',
       minlength: 1,
       maxlength: 280
     },
@@ -33,6 +33,6 @@ thoughtSchema.virtual('reactionCount').get(() => {
   return this.reactions.length;
 });
 
-const Thought = model('thought', thoughtSchema);
+const Thought = model('Thought', thoughtSchema);
 
 module.exports = Thought;
