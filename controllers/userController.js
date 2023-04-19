@@ -16,12 +16,12 @@ const userController = {
   // get single user by id
   getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
-      .select('__v')
+      .select('-__v')
       .populate('friends')
       .populate('thoughts')
       .then((userData) => {
         if (!userData) {
-          return res.status(404).json({ message: 'Cannot find user with this id!'});
+          return res.status(404).json({ message: 'Cannot find user with this id!' });
         }
         res.json(userData);
       })
@@ -71,13 +71,13 @@ const userController = {
         if (!userData) {
           return res.status(404).json({ message: 'Cannot find user with this id!' });
         }
-        res.json(500).json(err);
+        res.status(200).json({ message: 'Successfully Deleted!' });
       })
       .catch((err) => {
         console.log(err);
         res.status(500).json(err);
       })
-  }
+  },
 }
 
 module.exports = userController;

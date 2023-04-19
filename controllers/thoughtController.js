@@ -38,7 +38,7 @@ const thoughtController = {
         );
       })
       .then ((userData) => {
-        if (userData) {
+        if (!userData) {
           return res.status(404).json({ message: 'Thought succesfully created but cannot find user with this id!'});
         }
 
@@ -51,7 +51,7 @@ const thoughtController = {
   },
   // update thought
   updateThought(req, res) {
-    Thought.findOneAndUpdate({ _id: req.params.thoughtId }, { $set: req.body }, {runValidators: true, new: true })
+    Thought.findOneAndUpdate({ _id: req.params.thoughtId }, { $set: req.body }, { runValidators: true, new: true })
       .then ((thoughtData) => {
         if (!thoughtData) {
           return res.status(404).json({ message: 'Cannot find thought with this id!' });
@@ -70,6 +70,11 @@ const thoughtController = {
       if (!thoughtData) {
         return res.status(404).json({ message: 'Cannot find thought with this id!'});
       }
+      res.status(200).json({ message: 'Successfully deleted!'});
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
     })
   }
 }
