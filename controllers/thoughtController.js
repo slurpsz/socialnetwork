@@ -94,7 +94,24 @@ const thoughtController = {
         console.log(err);
         res.status(500).json(err);
       });
-  }
+  },
+  removeReaction(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $pull: { reactions: { reactionId: req.params.reactionId } } },
+      { runValidators: true, new: true }
+    )
+    .then((thoughtData) => {
+      if (!thoughtData) {
+        return res.status(404).json({ message: 'Cannot find thought with this id!'});
+      }
+      res.status(200).json({ message: 'Successfully Deleted!' });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+  },
 }
 
 module.exports = thoughtController;
